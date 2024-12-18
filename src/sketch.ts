@@ -9,7 +9,7 @@ function sketch(p: p5) {
 	};
 
 	p.draw = () => {
-		p.background("#3178c6");
+		p.background("#0D3B66");
 	};
 }
 
