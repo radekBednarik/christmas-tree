@@ -5,7 +5,7 @@ export function getRandomNumber(max: number) {
 export function getMonotonicArray(min: number, max: number) {
 	const arr = [];
 
-	for (let i = 0; i < max; i++) {
+	for (let i = min; i < max; i++) {
 		arr.push(i);
 	}
 
