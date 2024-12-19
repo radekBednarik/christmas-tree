@@ -3,6 +3,7 @@ import { getMonotonicArray, getRandomNumber } from "./utils";
 import {
 	getAbsoluteWidthAndHeight,
 	getCoords,
+	getCoordsRelativeToAnchorPoint,
 	getViewportSize,
 } from "./window";
 
@@ -197,5 +198,67 @@ export class Point {
 	private setStrokeWeigth() {
 		const numArr = getMonotonicArray(1, 8);
 		return getRandomNumber(numArr[numArr.length - 1]);
+	}
+}
+
+export class Star {
+	private p: p5;
+	private color: string;
+	private vertices: [number, number][];
+	private cX = 0;
+	private cY = 0;
+
+	/**
+	 * @param vertices array of x, y tuples, where x and y values are relative to the
+	 * centre of the star in percentages
+	 * @param cX X coord relative to the window width
+	 * @param cY Y coord relative to the window height
+	 * @param color color
+	 * @param p instance of p5
+	 *
+	 */
+	constructor(
+		vertices: [number, number][],
+		cX: number,
+		cY: number,
+		color: string,
+		p: p5,
+	) {
+		this.vertices = vertices;
+		this.p = p;
+		this.color = color;
+		this.cX = cX;
+		this.cY = cY;
+
+		this.setCoords();
+		this.create();
+	}
+
+	private setCoords() {
+		const cCoords = getCoords(this.cX, this.cY);
+
+		this.cX = cCoords.x;
+		this.cY = cCoords.y;
+
+		this.vertices = this.vertices.map(([x, y]) => {
+			const coords = getCoordsRelativeToAnchorPoint(this.cX, this.cY, x, y);
+
+			return [coords.x, coords.y];
+		});
+
+		console.log(this.cX, this.cY);
+		console.log(this.vertices);
+	}
+
+	private create() {
+		this.p.fill(this.color);
+
+		this.p.beginShape();
+
+		this.vertices.forEach(([x, y]) => {
+			this.p.vertex(x, y);
+		});
+
+		this.p.endShape(this.p.CLOSE);
 	}
 }

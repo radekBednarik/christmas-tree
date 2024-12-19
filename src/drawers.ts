@@ -1,5 +1,5 @@
 import type p5 from "p5";
-import { Point, Rectangle, Triangle } from "./objects";
+import { Point, Rectangle, Star, Triangle } from "./objects";
 import { getRandomNumber } from "./utils";
 import { getViewportSize } from "./window";
 
@@ -99,6 +99,16 @@ export function createSnowflakes(howMany: number, color: string, p: p5) {
 	}
 
 	return flakes;
+}
+
+export function drawStar(
+	vertices: [number, number][],
+	cX: number,
+	cY: number,
+	color: string,
+	p: p5,
+) {
+	new Star(vertices, cX, cY, color, p);
 }
 
 function createSnowflake(color: string, p: p5) {
