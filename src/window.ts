@@ -28,3 +28,18 @@ export function getCoords(relX: number, relY: number) {
 		y: Math.floor((relY / 100) * wCoords.height),
 	};
 }
+
+/**
+ * @param w width of the window as percentage
+ * @param h heigh of the window as percentage
+ */
+export function getAbsoluteWidthAndHeight(w: number, h: number) {
+	const wSize = getViewportSize();
+
+	console.log(wSize);
+
+	return {
+		w: Math.floor((w / 100) * wSize.width),
+		h: Math.floor((h / 100) * wSize.height),
+	};
+}

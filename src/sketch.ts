@@ -1,5 +1,6 @@
 import "./style.css";
 import p5 from "p5";
+import { Rectangle } from "./objects";
 import { getCoords, getViewportSize } from "./window";
 
 new p5(sketch);
@@ -16,21 +17,6 @@ function sketch(p: p5) {
 	p.draw = () => {
 		p.background("#0D3B66");
 
-		drawGround(p);
+		new Rectangle(0, 90, 100, 10, "white", p);
 	};
-}
-
-function drawGround(p: p5) {
-	const startPoint = getCoords(0, 90);
-	const endPoint = getCoords(100, 90);
-
-	const coords = {
-		x1: startPoint.x,
-		y1: startPoint.y,
-		x2: endPoint.x,
-		y2: endPoint.y,
-	};
-
-	p.stroke("white");
-	p.line(coords.x1, coords.y1, coords.x2, coords.y2);
 }
