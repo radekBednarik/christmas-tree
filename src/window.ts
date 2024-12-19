@@ -62,6 +62,6 @@ export function getCoordsRelativeToAnchorPoint(
 ) {
 	return {
 		x: Math.floor(aX * (1 + relX / 100)),
-		y: Math.floor(aY + (1 + relY / 100)),
+		y: Math.floor(aY * (1 + relY / 100)),
 	};
 }

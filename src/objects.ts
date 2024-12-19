@@ -1,8 +1,10 @@
 import type p5 from "p5";
+import type { Color } from "p5";
 import { getMonotonicArray, getRandomNumber } from "./utils";
 import {
 	getAbsoluteWidthAndHeight,
 	getCoords,
+	getCoordsRelativeToAnchorPoint,
 	getViewportSize,
 } from "./window";
 
@@ -197,5 +199,79 @@ export class Point {
 	private setStrokeWeigth() {
 		const numArr = getMonotonicArray(1, 8);
 		return getRandomNumber(numArr[numArr.length - 1]);
+	}
+}
+
+export class Star {
+	private p: p5;
+	private color: string;
+	private vertices: [number, number][];
+	private cX = 0;
+	private cY = 0;
+	private glowSpeed: number;
+	private glowOffset = 0;
+
+	/**
+	 * @param vertices array of x, y tuples, where x and y values are relative to the
+	 * centre of the star in percentages
+	 * @param cX X coord relative to the window width
+	 * @param cY Y coord relative to the window height
+	 * @param color color
+	 * @param p instance of p5
+	 *
+	 */
+	constructor(
+		vertices: [number, number][],
+		cX: number,
+		cY: number,
+		color: string,
+		glowSpeed: number,
+		p: p5,
+	) {
+		this.vertices = vertices;
+		this.p = p;
+		this.color = color;
+		this.cX = cX;
+		this.cY = cY;
+		this.glowSpeed = glowSpeed;
+		this.glowOffset = 0;
+
+		this.setCoords();
+	}
+
+	private setCoords() {
+		const cCoords = getCoords(this.cX, this.cY);
+
+		this.cX = cCoords.x;
+		this.cY = cCoords.y;
+
+		this.vertices = this.vertices.map(([x, y]) => {
+			const coords = getCoordsRelativeToAnchorPoint(this.cX, this.cY, x, y);
+
+			return [coords.x, coords.y];
+		});
+	}
+
+	private getGlowColor(): Color {
+		const glowFactor = (this.p.sin(this.glowOffset) + 1) / 2; // Oscillates between 0 and 1
+		this.glowOffset += this.glowSpeed;
+		const color = this.p.color(this.color);
+		color.setAlpha(Math.floor(255 * glowFactor)); // Adjust alpha based on glow factor
+
+		return color;
+	}
+
+	public create() {
+		this.p.push();
+		this.p.fill(this.getGlowColor());
+
+		this.p.beginShape();
+
+		this.vertices.forEach(([x, y]) => {
+			this.p.vertex(x, y);
+		});
+
+		this.p.endShape(this.p.CLOSE);
+		this.p.pop();
 	}
 }
