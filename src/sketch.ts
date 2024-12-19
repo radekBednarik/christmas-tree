@@ -1,7 +1,7 @@
 import "./style.css";
 import p5 from "p5";
 import { drawTree } from "./drawers";
-import { Rectangle, Triangle } from "./objects";
+import { Rectangle } from "./objects";
 import { getViewportSize } from "./window";
 
 new p5(sketch);
