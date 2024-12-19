@@ -78,6 +78,7 @@ export class Triangle {
 	private y2: number;
 	private x3: number;
 	private y3: number;
+	private flipVertical?: boolean;
 
 	/**
 	 * @param x1 x of first point in percentage of window width
@@ -98,6 +99,7 @@ export class Triangle {
 		y3: number,
 		color: string,
 		p: p5,
+		flipVertical = false,
 	) {
 		this.shape = new Shape(x1, y1, color, p);
 		this.x1 = this.shape.initX;
@@ -106,6 +108,7 @@ export class Triangle {
 		this.y2 = y2;
 		this.x3 = x3;
 		this.y3 = y3;
+		this.flipVertical = flipVertical;
 
 		this.setAbsCoords();
 		this.create();
@@ -113,14 +116,23 @@ export class Triangle {
 
 	private setAbsCoords() {
 		const secondPointCoords = getCoords(this.x2, this.y2);
+		const thirdPointCoords = getCoords(this.x3, this.y3);
 
 		this.x2 = secondPointCoords.x;
 		this.y2 = secondPointCoords.y;
 
-		const thirdPointCoords = getCoords(this.x3, this.y3);
-
 		this.x3 = thirdPointCoords.x;
 		this.y3 = thirdPointCoords.y;
+
+		if (this.flipVertical) {
+			this.flipVertically();
+		}
+	}
+
+	private flipVertically() {
+		const gap = this.x2 - this.x1;
+		this.x1 = this.x2;
+		this.x2 = this.x2 + gap;
 	}
 
 	private create() {

@@ -18,6 +18,7 @@ function sketch(p: p5) {
 		p.background("#0D3B66");
 
 		new Rectangle(0, 90, 100, 10, "#FFFFFF", p);
-		new Triangle(50, 50, 60, 50, 60, 40, "#228B22", p);
+		new Triangle(50, 50, 60, 50, 60, 40, "#228B22", p, false);
+		new Triangle(50, 50, 60, 50, 60, 40, "#228B22", p, true);
 	};
 }
