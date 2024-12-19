@@ -196,6 +196,6 @@ export class Point {
 
 	private setStrokeWeigth() {
 		const numArr = getMonotonicArray(1, 8);
-		return getRandomNumber(numArr[numArr.length - 1], numArr[0]);
+		return getRandomNumber(numArr[numArr.length - 1]);
 	}
 }

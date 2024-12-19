@@ -80,7 +80,7 @@ export function drawSnowflakes(
 		// If the snowflake goes off the bottom, reset it to the top
 		if (flake.y > wDims.height) {
 			flake.setY(0);
-			flake.setX(getRandomNumber(wDims.width, 0));
+			flake.setX(getRandomNumber(wDims.width));
 		}
 
 		flake.create();
@@ -102,8 +102,8 @@ export function createSnowflakes(howMany: number, color: string, p: p5) {
 }
 
 function createSnowflake(color: string, p: p5) {
-	const x = getRandomNumber(100, 1);
-	const y = getRandomNumber(100, 1);
+	const x = getRandomNumber(100);
+	const y = getRandomNumber(100);
 
 	return new Point(x, y, color, p);
 }
