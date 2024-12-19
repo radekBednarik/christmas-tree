@@ -1,5 +1,6 @@
 import "./style.css";
 import p5 from "p5";
+import { drawTree } from "./drawers";
 import { Rectangle, Triangle } from "./objects";
 import { getViewportSize } from "./window";
 
@@ -18,7 +19,12 @@ function sketch(p: p5) {
 		p.background("#0D3B66");
 
 		new Rectangle(0, 90, 100, 10, "#FFFFFF", p);
-		new Triangle(50, 50, 60, 50, 60, 40, "#228B22", p, false);
-		new Triangle(50, 50, 60, 50, 60, 40, "#228B22", p, true);
+
+		drawTree(
+			12,
+			{ x1: 50, y1: 50, x2: 60, y2: 50, x3: 60, y3: 40 },
+			"#228B22",
+			p,
+		);
 	};
 }
