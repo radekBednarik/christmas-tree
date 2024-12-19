@@ -160,8 +160,10 @@ export class Triangle {
 
 export class Point {
 	private shape: Shape;
-	private x: number;
-	private y: number;
+	public x: number;
+	public y: number;
+	public color: string;
+	public p: p5;
 
 	/**
 	 * @param x percentage position of point on window width
@@ -171,18 +173,22 @@ export class Point {
 	 */
 	constructor(x: number, y: number, color: string, p: p5) {
 		this.shape = new Shape(x, y, color, p);
+		this.color = this.shape.color;
+		this.p = this.shape.p;
 		this.x = this.shape.initX;
 		this.y = this.shape.initY;
-
-		this.create();
 	}
 
-	private create() {
+	public create() {
 		const numArr = getMonotonicArray(1, 8);
 		const strokeWeight = getRandomNumber(numArr[numArr.length - 1], numArr[0]);
 
 		this.shape.p.stroke(this.shape.color);
 		this.shape.p.strokeWeight(strokeWeight);
 		this.shape.p.point(this.x, this.y);
+	}
+
+	public setY(y: number) {
+		this.y = y;
 	}
 }

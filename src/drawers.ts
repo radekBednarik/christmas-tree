@@ -1,6 +1,6 @@
 import type p5 from "p5";
 import { Point, Rectangle, Triangle } from "./objects";
-import { getMonotonicArray, getRandomNumber } from "./utils";
+import { getRandomNumber } from "./utils";
 import { getViewportSize } from "./window";
 
 export function drawTree(
@@ -66,11 +66,37 @@ export function drawGround(
 	new Rectangle(x, y, w, h, color, p);
 }
 
-export function drawSnowflakes(howMany: number, color: string, p: p5) {
-	for (let i = 0; i < howMany; i++) {
-		const x = getRandomNumber(100, 1);
-		const y = getRandomNumber(100, 1);
+export function drawSnowflakes(
+	snowflakes: Point[],
+	howMany: number,
+	color: string,
+	p: p5,
+) {
+	const wDims = getViewportSize();
 
-		new Point(x, y, color, p);
+	snowflakes
+		.filter((flake) => flake.y < wDims.height)
+		.forEach((flake) => flake.create());
+
+	while (snowflakes.length < howMany) {
+		snowflakes.push(createSnowflake(color, p));
 	}
+	snowflakes.forEach((flake) => flake.setY(flake.y + 1));
+}
+
+export function createSnowflakes(howMany: number, color: string, p: p5) {
+	const flakes: Point[] = [];
+
+	for (let i = 0; i < howMany; i++) {
+		flakes.push(createSnowflake(color, p));
+	}
+
+	return flakes;
+}
+
+function createSnowflake(color: string, p: p5) {
+	const x = getRandomNumber(100, 1);
+	const y = getRandomNumber(100, 1);
+
+	return new Point(x, y, color, p);
 }
