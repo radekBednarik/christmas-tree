@@ -11,7 +11,11 @@ import { getViewportSize } from "./window";
 new p5(sketch);
 
 function sketch(p: p5) {
-	const snowflakes = createSnowflakes(500, "#FFFFFF", p);
+	const FLAKES_COUNT = 800;
+	const COLOR_SNOW = "#FFFFFF";
+	const COLOR_SKY = "#0D3B66";
+
+	const snowflakes = createSnowflakes(FLAKES_COUNT, COLOR_SNOW, p);
 
 	p.setup = () => {
 		const window = getViewportSize();
@@ -23,16 +27,15 @@ function sketch(p: p5) {
 	};
 
 	p.draw = () => {
-		p.background("#0D3B66");
+		p.background(COLOR_SKY);
 
-		drawGround(0, 85, 100, 15, "#FFFFFF", p);
+		drawGround(0, 85, 100, 15, COLOR_SNOW, p);
 		drawTree(
 			12,
 			{ x1: 40, y1: 30, x2: 50, y2: 30, x3: 50, y3: 20 },
 			"#228B22",
 			p,
 		);
-
-		drawSnowflakes(snowflakes, 500, "#FFFFFF", p);
+		drawSnowflakes(snowflakes, FLAKES_COUNT, COLOR_SNOW, p);
 	};
 }
