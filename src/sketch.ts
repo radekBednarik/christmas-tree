@@ -8,7 +8,7 @@ import {
 } from "./drawers";
 import { getViewportSize } from "./window";
 
-new p5(sketch);
+new p5(sketch, document.querySelector<HTMLDivElement>("#canvas-wrapper")!);
 
 function sketch(p: p5) {
 	const FLAKES_COUNT = 800;
