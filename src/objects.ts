@@ -1,4 +1,5 @@
 import type p5 from "p5";
+import type { Color } from "p5";
 import { getMonotonicArray, getRandomNumber } from "./utils";
 import {
 	getAbsoluteWidthAndHeight,
@@ -207,6 +208,8 @@ export class Star {
 	private vertices: [number, number][];
 	private cX = 0;
 	private cY = 0;
+	private glowSpeed: number;
+	private glowOffset = 0;
 
 	/**
 	 * @param vertices array of x, y tuples, where x and y values are relative to the
@@ -222,6 +225,7 @@ export class Star {
 		cX: number,
 		cY: number,
 		color: string,
+		glowSpeed: number,
 		p: p5,
 	) {
 		this.vertices = vertices;
@@ -229,9 +233,10 @@ export class Star {
 		this.color = color;
 		this.cX = cX;
 		this.cY = cY;
+		this.glowSpeed = glowSpeed;
+		this.glowOffset = 0;
 
 		this.setCoords();
-		this.create();
 	}
 
 	private setCoords() {
@@ -245,13 +250,20 @@ export class Star {
 
 			return [coords.x, coords.y];
 		});
-
-		console.log(this.cX, this.cY);
-		console.log(this.vertices);
 	}
 
-	private create() {
-		this.p.fill(this.color);
+	private getGlowColor(): Color {
+		const glowFactor = (this.p.sin(this.glowOffset) + 1) / 2; // Oscillates between 0 and 1
+		this.glowOffset += this.glowSpeed;
+		const color = this.p.color(this.color);
+		color.setAlpha(Math.floor(255 * glowFactor)); // Adjust alpha based on glow factor
+
+		return color;
+	}
+
+	public create() {
+		this.p.push();
+		this.p.fill(this.getGlowColor());
 
 		this.p.beginShape();
 
@@ -260,5 +272,6 @@ export class Star {
 		});
 
 		this.p.endShape(this.p.CLOSE);
+		this.p.pop();
 	}
 }

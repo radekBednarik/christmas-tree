@@ -3,6 +3,7 @@ import p5 from "p5";
 import octokat from "./assets/images/github-mark.png";
 import {
 	createSnowflakes,
+	createStar,
 	drawGround,
 	drawSnowflakes,
 	drawStar,
@@ -21,14 +22,31 @@ function sketch(p: p5) {
 	const COLOR_STAR = "#FFD700";
 
 	const snowflakes = createSnowflakes(FLAKES_COUNT, COLOR_SNOW, p);
+	const star = createStar(
+		[
+			[0, 10],
+			[8, 25],
+			[5, 5],
+			[15, -4],
+			[3.5, -5],
+			[0, -25],
+			[-3.5, -5],
+			[-15, -4],
+			[-5, 5],
+			[-8, 25],
+		],
+		50,
+		18,
+		COLOR_STAR,
+		p,
+	);
 
 	p.setup = () => {
 		const window = getViewportSize();
 
 		p.createCanvas(window.width, window.height);
-		p.colorMode("hsb");
+		p.colorMode("rgb");
 		p.frameRate(30);
-		p.noLoop();
 	};
 
 	p.draw = () => {
@@ -41,24 +59,7 @@ function sketch(p: p5) {
 			"#228B22",
 			p,
 		);
-		drawStar(
-			[
-				[0, 10],
-				[8, 25],
-				[5, 5],
-				[15, -4],
-				[3.5, -5],
-				[0, -25],
-				[-3.5, -5],
-				[-15, -4],
-				[-5, 5],
-				[-8, 25],
-			],
-			50,
-			20,
-			COLOR_STAR,
-			p,
-		);
+		drawStar(star);
 		drawSnowflakes(snowflakes, FLAKES_COUNT, COLOR_SNOW, p);
 	};
 }

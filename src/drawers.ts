@@ -101,14 +101,18 @@ export function createSnowflakes(howMany: number, color: string, p: p5) {
 	return flakes;
 }
 
-export function drawStar(
+export function drawStar(star: Star) {
+	star.create();
+}
+
+export function createStar(
 	vertices: [number, number][],
 	cX: number,
 	cY: number,
 	color: string,
 	p: p5,
 ) {
-	new Star(vertices, cX, cY, color, p);
+	return new Star(vertices, cX, cY, color, 0.05, p);
 }
 
 function createSnowflake(color: string, p: p5) {
