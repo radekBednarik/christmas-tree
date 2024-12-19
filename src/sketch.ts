@@ -1,5 +1,6 @@
 import "./style.css";
 import p5 from "p5";
+import octokat from "./assets/images/github-mark.png";
 import {
 	createSnowflakes,
 	drawGround,
@@ -9,6 +10,8 @@ import {
 import { getViewportSize } from "./window";
 
 new p5(sketch, document.querySelector<HTMLDivElement>("#canvas-wrapper")!);
+
+(document.getElementById("octokat") as HTMLImageElement).src = octokat;
 
 function sketch(p: p5) {
 	const FLAKES_COUNT = 800;
