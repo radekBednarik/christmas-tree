@@ -36,8 +36,6 @@ export function getCoords(relX: number, relY: number) {
 export function getAbsoluteWidthAndHeight(w: number, h: number) {
 	const wSize = getViewportSize();
 
-	console.log(wSize);
-
 	return {
 		w: Math.floor((w / 100) * wSize.width),
 		h: Math.floor((h / 100) * wSize.height),

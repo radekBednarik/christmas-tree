@@ -8,6 +8,12 @@ class Shape {
 
 	public p: p5;
 
+	/**
+	 * @param x x coords as percentage of window width
+	 * @param y y coords as percentage of window height
+	 * @param color color
+	 * @param p instance of p5
+	 */
 	constructor(x: number, y: number, color: string, p: p5) {
 		this.color = color;
 		this.p = p;
@@ -38,6 +44,7 @@ export class Rectangle {
 	 * @param w width in percentage of window width
 	 * @param h height in percentage of window height
 	 * @param color color of the shape
+	 * @param p instance of the p5
 	 */
 	constructor(
 		x: number,
@@ -57,8 +64,6 @@ export class Rectangle {
 
 	private create() {
 		const absDims = getAbsoluteWidthAndHeight(this.w, this.h);
-
-		console.log(this.x, this.y, absDims.w, absDims.h);
 
 		this.shape.fill(this.shape.color);
 		this.shape.p.rect(this.x, this.y, absDims.w, absDims.h);
