@@ -34,23 +34,31 @@ export function drawTree(
 		);
 	}
 
+	const x1 = initCoords.x1;
+	const x2 = initCoords.x2;
+	const x3 = initCoords.x3;
+	let y1 = initCoords.y1;
+	let y2 = initCoords.y2;
+	let y3 = initCoords.y3;
+
 	for (let i = 0; i < howManyTriangles; i++) {
 		let flip = false;
-
-		console.log(horizontalGap, verticalGap);
+		const toNextRow = (i - 2) % 2 === 0 ? true : false;
 
 		i % 2 !== 0 ? (flip = true) : (flip = false);
 
-		new Triangle(
-			initCoords.x1,
-			initCoords.y1,
-			initCoords.x2,
-			initCoords.y2,
-			initCoords.x3,
-			initCoords.y3,
-			color,
-			p,
-			flip,
-		);
+		if (i <= 1) {
+			new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
+		} else {
+			if (toNextRow) {
+				y1 += verticalGap;
+				y2 += verticalGap;
+				y3 += verticalGap;
+
+				new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
+			} else {
+				new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
+			}
+		}
 	}
 }
