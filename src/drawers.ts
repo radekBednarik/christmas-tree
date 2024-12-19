@@ -26,17 +26,10 @@ export function drawTree(
 		throw new Error("Vertical gap between points on y axis must be positive!");
 	}
 
-	const horizontalGap = initCoords.x2 - initCoords.x1;
-
-	if (horizontalGap <= 0) {
-		throw new Error(
-			"Horizontal gap between points on x axis must be positive!",
-		);
-	}
-
-	const x1 = initCoords.x1;
 	const x2 = initCoords.x2;
 	const x3 = initCoords.x3;
+
+	let x1 = initCoords.x1;
 	let y1 = initCoords.y1;
 	let y2 = initCoords.y2;
 	let y3 = initCoords.y3;
@@ -51,6 +44,7 @@ export function drawTree(
 			new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
 		} else {
 			if (toNextRow) {
+				x1 -= 3;
 				y1 += verticalGap;
 				y2 += verticalGap;
 				y3 += verticalGap;
