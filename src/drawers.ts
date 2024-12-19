@@ -1,5 +1,5 @@
 import type p5 from "p5";
-import { Triangle } from "./objects";
+import { Rectangle, Triangle } from "./objects";
 
 export function drawTree(
 	howManyTriangles: number,
@@ -40,19 +40,26 @@ export function drawTree(
 
 		i % 2 !== 0 ? (flip = true) : (flip = false);
 
-		if (i <= 1) {
+		if (i <= 1 || !toNextRow) {
 			new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
 		} else {
-			if (toNextRow) {
-				x1 -= 3;
-				y1 += verticalGap;
-				y2 += verticalGap;
-				y3 += verticalGap;
+			x1 -= 3;
+			y1 += verticalGap;
+			y2 += verticalGap;
+			y3 += verticalGap;
 
-				new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
-			} else {
-				new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
-			}
+			new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
 		}
 	}
+}
+
+export function drawGround(
+	x: number,
+	y: number,
+	w: number,
+	h: number,
+	color: string,
+	p: p5,
+) {
+	new Rectangle(x, y, w, h, color, p);
 }
