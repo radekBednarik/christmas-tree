@@ -41,3 +41,27 @@ export function getAbsoluteWidthAndHeight(w: number, h: number) {
 		h: Math.floor((h / 100) * wSize.height),
 	};
 }
+
+/**
+ * Returns absolute position as `{x, y}` that is relative to the
+ * provided anchor point coords.
+ *
+ * IMPORTANT: On Y axis, positive `relY` means going DOWN on Y axis
+ * and vice versa.
+ * @param aX anchor X as absolute x position on window width
+ * @param aY anchor Y as absolute y position on window height
+ * @param relX x as relative position to anchor X. Positive to right. Negative to left.
+ * @param relY y sa relative position to anchor Y. Positive to down. Negative to up.
+ *
+ */
+export function getCoordsRelativeToAnchorPoint(
+	aX: number,
+	aY: number,
+	relX: number,
+	relY: number,
+) {
+	return {
+		x: Math.floor(aX * (1 + relX / 100)),
+		y: Math.floor(aY + (1 + relY / 100)),
+	};
+}
