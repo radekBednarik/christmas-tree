@@ -1,5 +1,4 @@
 import type p5 from "p5";
-import { Color } from "p5";
 import { getMonotonicArray, getRandomNumber } from "./utils";
 import {
 	getAbsoluteWidthAndHeight,
@@ -160,6 +159,7 @@ export class Triangle {
 
 export class Point {
 	private shape: Shape;
+	private strokeWeight: number;
 	public x: number;
 	public y: number;
 	public color: string;
@@ -177,14 +177,12 @@ export class Point {
 		this.p = this.shape.p;
 		this.x = this.shape.initX;
 		this.y = this.shape.initY;
+		this.strokeWeight = this.setStrokeWeigth();
 	}
 
 	public create() {
-		const numArr = getMonotonicArray(1, 8);
-		const strokeWeight = getRandomNumber(numArr[numArr.length - 1], numArr[0]);
-
 		this.shape.p.stroke(this.shape.color);
-		this.shape.p.strokeWeight(strokeWeight);
+		this.shape.p.strokeWeight(this.strokeWeight);
 		this.shape.p.point(this.x, this.y);
 	}
 
@@ -194,5 +192,10 @@ export class Point {
 
 	public setX(x: number) {
 		this.x = x;
+	}
+
+	private setStrokeWeigth() {
+		const numArr = getMonotonicArray(1, 8);
+		return getRandomNumber(numArr[numArr.length - 1], numArr[0]);
 	}
 }

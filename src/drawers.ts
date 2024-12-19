@@ -80,13 +80,12 @@ export function drawSnowflakes(
 		// If the snowflake goes off the bottom, reset it to the top
 		if (flake.y > wDims.height) {
 			flake.setY(0);
-			flake.setX(getRandomNumber(wDims.width, 0)); // Randomize x position
+			flake.setX(getRandomNumber(wDims.width, 0));
 		}
 
 		flake.create();
 	});
 
-	// Add new snowflakes if needed
 	while (snowflakes.length < howMany) {
 		snowflakes.push(createSnowflake(color, p));
 	}

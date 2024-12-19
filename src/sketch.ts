@@ -18,14 +18,13 @@ function sketch(p: p5) {
 
 		p.createCanvas(window.width, window.height);
 		p.colorMode("hsb");
-		p.frameRate(15);
+		p.frameRate(30);
 		// p.noLoop();
 	};
 
 	p.draw = () => {
 		p.background("#0D3B66");
 
-		drawSnowflakes(snowflakes, 500, "#FFFFFF", p);
 		drawGround(0, 85, 100, 15, "#FFFFFF", p);
 		drawTree(
 			12,
@@ -33,5 +32,7 @@ function sketch(p: p5) {
 			"#228B22",
 			p,
 		);
+
+		drawSnowflakes(snowflakes, 500, "#FFFFFF", p);
 	};
 }
