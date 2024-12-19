@@ -69,3 +69,62 @@ export class Rectangle {
 		this.shape.p.rect(this.x, this.y, absDims.w, absDims.h);
 	}
 }
+
+export class Triangle {
+	private shape: Shape;
+	private x1: number;
+	private y1: number;
+	private x2: number;
+	private y2: number;
+	private x3: number;
+	private y3: number;
+
+	/**
+	 * @param x1 x of first point in percentage of window width
+	 * @param y1 y of first point in percentage of window height
+	 * @param x2 x of second point in percentage of window width
+	 * @param y2 y of second point in percentage of window height
+	 * @param x2 x of third point in percentage of window width
+	 * @param y3 y of third point in percentage of window height
+	 * @param color color
+	 * @param p instance of p5
+	 */
+	constructor(
+		x1: number,
+		y1: number,
+		x2: number,
+		y2: number,
+		x3: number,
+		y3: number,
+		color: string,
+		p: p5,
+	) {
+		this.shape = new Shape(x1, y1, color, p);
+		this.x1 = this.shape.initX;
+		this.y1 = this.shape.initY;
+		this.x2 = x2;
+		this.y2 = y2;
+		this.x3 = x3;
+		this.y3 = y3;
+
+		this.setAbsCoords();
+		this.create();
+	}
+
+	private setAbsCoords() {
+		const secondPointCoords = getCoords(this.x2, this.y2);
+
+		this.x2 = secondPointCoords.x;
+		this.y2 = secondPointCoords.y;
+
+		const thirdPointCoords = getCoords(this.x3, this.y3);
+
+		this.x3 = thirdPointCoords.x;
+		this.y3 = thirdPointCoords.y;
+	}
+
+	private create() {
+		this.shape.fill(this.shape.color);
+		this.shape.p.triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+	}
+}
