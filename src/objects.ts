@@ -1,10 +1,18 @@
 import type p5 from "p5";
-import { getAbsoluteWidthAndHeight, getCoords } from "./window";
+import { Color } from "p5";
+import { getMonotonicArray, getRandomNumber } from "./utils";
+import {
+	getAbsoluteWidthAndHeight,
+	getCoords,
+	getViewportSize,
+} from "./window";
 
 class Shape {
 	public initX = 0;
 	public initY = 0;
 	public color: string;
+	public windowWidth = 0;
+	public windowHeight = 0;
 
 	public p: p5;
 
@@ -18,12 +26,20 @@ class Shape {
 		this.color = color;
 		this.p = p;
 		this.setInitCoords(x, y);
+		this.setWindowDims();
 	}
 
 	private setInitCoords(x: number, y: number) {
 		const coords = getCoords(x, y);
 		this.initX = coords.x;
 		this.initY = coords.y;
+	}
+
+	private setWindowDims() {
+		const wDims = getViewportSize();
+
+		this.windowWidth = wDims.width;
+		this.windowHeight = wDims.height;
 	}
 
 	public fill(color: string) {
@@ -139,5 +155,34 @@ export class Triangle {
 		this.shape.fill(this.shape.color);
 		this.shape.p.strokeWeight(0);
 		this.shape.p.triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+	}
+}
+
+export class Point {
+	private shape: Shape;
+	private x: number;
+	private y: number;
+
+	/**
+	 * @param x percentage position of point on window width
+	 * @param y percentage position of point on window height
+	 * @param color color
+	 * @param p instance of p5
+	 */
+	constructor(x: number, y: number, color: string, p: p5) {
+		this.shape = new Shape(x, y, color, p);
+		this.x = this.shape.initX;
+		this.y = this.shape.initY;
+
+		this.create();
+	}
+
+	private create() {
+		const numArr = getMonotonicArray(1, 8);
+		const strokeWeight = getRandomNumber(numArr[numArr.length - 1], numArr[0]);
+
+		this.shape.p.stroke(this.shape.color);
+		this.shape.p.strokeWeight(strokeWeight);
+		this.shape.p.point(this.x, this.y);
 	}
 }

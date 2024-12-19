@@ -1,5 +1,7 @@
 import type p5 from "p5";
-import { Rectangle, Triangle } from "./objects";
+import { Point, Rectangle, Triangle } from "./objects";
+import { getMonotonicArray, getRandomNumber } from "./utils";
+import { getViewportSize } from "./window";
 
 export function drawTree(
 	howManyTriangles: number,
@@ -62,4 +64,13 @@ export function drawGround(
 	p: p5,
 ) {
 	new Rectangle(x, y, w, h, color, p);
+}
+
+export function drawSnowflakes(howMany: number, color: string, p: p5) {
+	for (let i = 0; i < howMany; i++) {
+		const x = getRandomNumber(100, 1);
+		const y = getRandomNumber(100, 1);
+
+		new Point(x, y, color, p);
+	}
 }
