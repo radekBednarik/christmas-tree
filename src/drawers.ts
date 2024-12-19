@@ -74,14 +74,22 @@ export function drawSnowflakes(
 ) {
 	const wDims = getViewportSize();
 
-	snowflakes
-		.filter((flake) => flake.y < wDims.height)
-		.forEach((flake) => flake.create());
+	snowflakes.forEach((flake) => {
+		flake.setY(flake.y + 1);
 
+		// If the snowflake goes off the bottom, reset it to the top
+		if (flake.y > wDims.height) {
+			flake.setY(0);
+			flake.setX(getRandomNumber(wDims.width, 0)); // Randomize x position
+		}
+
+		flake.create();
+	});
+
+	// Add new snowflakes if needed
 	while (snowflakes.length < howMany) {
 		snowflakes.push(createSnowflake(color, p));
 	}
-	snowflakes.forEach((flake) => flake.setY(flake.y + 1));
 }
 
 export function createSnowflakes(howMany: number, color: string, p: p5) {

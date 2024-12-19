@@ -191,4 +191,8 @@ export class Point {
 	public setY(y: number) {
 		this.y = y;
 	}
+
+	public setX(x: number) {
+		this.x = x;
+	}
 }
