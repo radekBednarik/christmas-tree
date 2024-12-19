@@ -137,6 +137,7 @@ export class Triangle {
 
 	private create() {
 		this.shape.fill(this.shape.color);
+		this.shape.p.strokeWeight(0);
 		this.shape.p.triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
 	}
 }
