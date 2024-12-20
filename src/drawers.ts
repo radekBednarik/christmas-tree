@@ -40,6 +40,7 @@ export function drawTree(
 		let flip = false;
 		const toNextRow = (i - 2) % 2 === 0 ? true : false;
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		i % 2 !== 0 ? (flip = true) : (flip = false);
 
 		if (i <= 1 || !toNextRow) {
