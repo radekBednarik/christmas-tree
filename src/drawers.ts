@@ -13,6 +13,7 @@ export function drawTree(
 		x3: number;
 		y3: number;
 	},
+	aspectRatio: number,
 	color: string,
 	p: p5,
 ) {
@@ -48,20 +49,42 @@ export function drawTree(
 		const d = 4;
 
 		if (i <= 1 || !toNextRow) {
-			const triangle = new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
+			const triangle = new Triangle(
+				x1,
+				y1,
+				x2,
+				y2,
+				x3,
+				y3,
+				aspectRatio,
+				color,
+				p,
+				flip,
+			);
 			const aX = getAvgOfTwo(triangle.x1, triangle.x2);
 
-			new Circle(hShift, vShift, d, aX, triangle.y1, p);
+			new Circle(hShift, vShift, d, aX, triangle.y1, aspectRatio, p);
 		} else {
 			x1 -= 2;
 			y1 += verticalGap;
 			y2 += verticalGap;
 			y3 += verticalGap;
 
-			const triangle = new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
+			const triangle = new Triangle(
+				x1,
+				y1,
+				x2,
+				y2,
+				x3,
+				y3,
+				aspectRatio,
+				color,
+				p,
+				flip,
+			);
 			const aX = getAvgOfTwo(triangle.x1, triangle.x2);
 
-			new Circle(hShift, vShift, d, aX, triangle.y1, p);
+			new Circle(hShift, vShift, d, aX, triangle.y1, aspectRatio, p);
 		}
 	}
 }
@@ -120,10 +143,11 @@ export function createStar(
 	vertices: [number, number][],
 	cX: number,
 	cY: number,
+	aspectRatio: number,
 	color: string,
 	p: p5,
 ) {
-	return new Star(vertices, cX, cY, color, 0.05, p);
+	return new Star(vertices, cX, cY, aspectRatio, color, 0.05, p);
 }
 
 function createSnowflake(color: string, p: p5) {

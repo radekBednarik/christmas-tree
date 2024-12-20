@@ -11,6 +11,7 @@ import {
 class Shape {
 	public initX = 0;
 	public initY = 0;
+	public aspectRatio?: number;
 	public color: string;
 	public windowWidth = 0;
 	public windowHeight = 0;
@@ -23,9 +24,17 @@ class Shape {
 	 * @param color color
 	 * @param p instance of p5
 	 */
-	constructor(x: number, y: number, color: string, p: p5) {
+	constructor(
+		x: number,
+		y: number,
+		color: string,
+		p: p5,
+		aspectRatio?: number,
+	) {
 		this.color = color;
+		this.aspectRatio = aspectRatio;
 		this.p = p;
+
 		this.setInitCoords(x, y);
 		this.setWindowDims();
 	}
@@ -82,8 +91,10 @@ export class Rectangle {
 	private create() {
 		const absDims = getAbsoluteWidthAndHeight(this.w, this.h);
 
+		this.shape.p.push();
 		this.shape.fill(this.shape.color);
 		this.shape.p.rect(this.x, this.y, absDims.w, absDims.h);
+		this.shape.p.pop();
 	}
 }
 
@@ -106,6 +117,7 @@ export class Triangle {
 	 * @param y2 y of second point in percentage of window height
 	 * @param x2 x of third point in percentage of window width
 	 * @param y3 y of third point in percentage of window height
+	 * @param aspectRatio ratio of window
 	 * @param color color
 	 * @param p instance of p5
 	 */
@@ -116,13 +128,14 @@ export class Triangle {
 		y2: number,
 		x3: number,
 		y3: number,
+		aspectRatio: number,
 		color: string,
 		p: p5,
 		flipVertical = false,
 	) {
-		this.shape = new Shape(x1, y1, color, p);
-		this.x1 = this.shape.initX;
-		this.y1 = this.shape.initY;
+		this.shape = new Shape(x1, y1, color, p, aspectRatio);
+		this.x1 = x1;
+		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
 		this.x3 = x3;
@@ -134,13 +147,17 @@ export class Triangle {
 	}
 
 	private setAbsCoords() {
+		const firstPointCoords = getCoords(this.x1, this.y1);
 		const secondPointCoords = getCoords(this.x2, this.y2);
 		const thirdPointCoords = getCoords(this.x3, this.y3);
 
-		this.x2 = secondPointCoords.x;
+		this.x1 = firstPointCoords.x / this.shape.aspectRatio!;
+		this.y1 = firstPointCoords.y;
+
+		this.x2 = secondPointCoords.x / this.shape.aspectRatio!;
 		this.y2 = secondPointCoords.y;
 
-		this.x3 = thirdPointCoords.x;
+		this.x3 = thirdPointCoords.x / this.shape.aspectRatio!;
 		this.y3 = thirdPointCoords.y;
 
 		if (this.flipVertical) {
@@ -162,9 +179,11 @@ export class Triangle {
 	}
 
 	private create() {
+		this.shape.p.push();
 		this.shape.fill(this.shape.color);
 		this.shape.p.strokeWeight(0);
 		this.shape.p.triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+		this.shape.p.pop();
 	}
 }
 
@@ -192,9 +211,11 @@ export class Point {
 	}
 
 	public create() {
+		this.shape.p.push();
 		this.shape.p.stroke(this.shape.color);
 		this.shape.p.strokeWeight(this.strokeWeight);
 		this.shape.p.point(this.x, this.y);
+		this.shape.p.pop();
 	}
 
 	public setY(y: number) {
@@ -217,6 +238,7 @@ export class Star {
 	private vertices: [number, number][];
 	private cX = 0;
 	private cY = 0;
+	private aspectRatio: number;
 	private glowSpeed: number;
 	private glowOffset = 0;
 
@@ -225,6 +247,7 @@ export class Star {
 	 * centre of the star in percentages
 	 * @param cX X coord relative to the window width
 	 * @param cY Y coord relative to the window height
+	 * @param aspectRatio ratio of window
 	 * @param color color
 	 * @param p instance of p5
 	 *
@@ -233,6 +256,7 @@ export class Star {
 		vertices: [number, number][],
 		cX: number,
 		cY: number,
+		aspectRatio: number,
 		color: string,
 		glowSpeed: number,
 		p: p5,
@@ -242,6 +266,7 @@ export class Star {
 		this.color = color;
 		this.cX = cX;
 		this.cY = cY;
+		this.aspectRatio = aspectRatio;
 		this.glowSpeed = glowSpeed;
 		this.glowOffset = 0;
 
@@ -257,7 +282,7 @@ export class Star {
 		this.vertices = this.vertices.map(([x, y]) => {
 			const coords = getCoordsRelativeToAnchorPoint(this.cX, this.cY, x, y);
 
-			return [coords.x, coords.y];
+			return [coords.x / this.aspectRatio, coords.y];
 		});
 	}
 
@@ -272,6 +297,8 @@ export class Star {
 
 	public create() {
 		this.p.push();
+		this.p.strokeWeight(2);
+		this.p.stroke("white");
 		this.p.fill(this.getGlowColor());
 
 		this.p.beginShape();
@@ -291,6 +318,7 @@ export class Circle {
 	private d: number;
 	private aX: number;
 	private aY: number;
+	private aspectRatio: number;
 	private p: p5;
 
 	/**
@@ -299,14 +327,24 @@ export class Circle {
 	 * @param d diameter of the circle relative to the screen height
 	 * @param aX x coord of the anchor point as absolute width
 	 * @param aY y coord of the anchor point as absolute height
+	 * @param aspectRatio ratio of window
 	 * @param p instance of the p5
 	 */
-	constructor(x: number, y: number, d: number, aX: number, aY: number, p: p5) {
+	constructor(
+		x: number,
+		y: number,
+		d: number,
+		aX: number,
+		aY: number,
+		aspectRatio: number,
+		p: p5,
+	) {
 		this.x = x;
 		this.y = y;
 		this.aX = aX;
 		this.aY = aY;
 		this.d = d;
+		this.aspectRatio = aspectRatio;
 		this.p = p;
 
 		this.setCoords();
@@ -317,7 +355,7 @@ export class Circle {
 		const posCoords = getCoordsRelativeToAnchorPoint(
 			this.aX,
 			this.aY,
-			this.x,
+			this.x / this.aspectRatio,
 			this.y,
 		);
 		const hAbs = getViewportSize().height;

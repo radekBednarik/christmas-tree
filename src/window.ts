@@ -65,3 +65,7 @@ export function getCoordsRelativeToAnchorPoint(
 		y: Math.floor(aY * (1 + relY / 100)),
 	};
 }
+
+export function getAspectRatio(window: { width: number; height: number }) {
+	return window.width / window.height;
+}
