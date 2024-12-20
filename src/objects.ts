@@ -95,6 +95,7 @@ export class Triangle {
 	private y2: number;
 	private x3: number;
 	private y3: number;
+	private aspectRatio: number;
 	private flipVertical?: boolean;
 	public cX = 0;
 	public cY = 0;
@@ -106,6 +107,7 @@ export class Triangle {
 	 * @param y2 y of second point in percentage of window height
 	 * @param x2 x of third point in percentage of window width
 	 * @param y3 y of third point in percentage of window height
+	 * @param aspectRatio ratio of window
 	 * @param color color
 	 * @param p instance of p5
 	 */
@@ -116,6 +118,7 @@ export class Triangle {
 		y2: number,
 		x3: number,
 		y3: number,
+		aspectRatio: number,
 		color: string,
 		p: p5,
 		flipVertical = false,
@@ -127,6 +130,7 @@ export class Triangle {
 		this.y2 = y2;
 		this.x3 = x3;
 		this.y3 = y3;
+		this.aspectRatio = aspectRatio;
 		this.flipVertical = flipVertical;
 
 		this.setAbsCoords();
@@ -164,7 +168,14 @@ export class Triangle {
 	private create() {
 		this.shape.fill(this.shape.color);
 		this.shape.p.strokeWeight(0);
-		this.shape.p.triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+		this.shape.p.triangle(
+			this.x1 / this.aspectRatio,
+			this.y1,
+			this.x2 / this.aspectRatio,
+			this.y2,
+			this.x3 / this.aspectRatio,
+			this.y3,
+		);
 	}
 }
 
@@ -217,6 +228,7 @@ export class Star {
 	private vertices: [number, number][];
 	private cX = 0;
 	private cY = 0;
+	private aspectRatio: number;
 	private glowSpeed: number;
 	private glowOffset = 0;
 
@@ -225,6 +237,7 @@ export class Star {
 	 * centre of the star in percentages
 	 * @param cX X coord relative to the window width
 	 * @param cY Y coord relative to the window height
+	 * @param aspectRatio ratio of window
 	 * @param color color
 	 * @param p instance of p5
 	 *
@@ -233,6 +246,7 @@ export class Star {
 		vertices: [number, number][],
 		cX: number,
 		cY: number,
+		aspectRatio: number,
 		color: string,
 		glowSpeed: number,
 		p: p5,
@@ -242,6 +256,7 @@ export class Star {
 		this.color = color;
 		this.cX = cX;
 		this.cY = cY;
+		this.aspectRatio = aspectRatio;
 		this.glowSpeed = glowSpeed;
 		this.glowOffset = 0;
 
@@ -257,7 +272,7 @@ export class Star {
 		this.vertices = this.vertices.map(([x, y]) => {
 			const coords = getCoordsRelativeToAnchorPoint(this.cX, this.cY, x, y);
 
-			return [coords.x, coords.y];
+			return [coords.x / this.aspectRatio, coords.y];
 		});
 	}
 
@@ -291,6 +306,7 @@ export class Circle {
 	private d: number;
 	private aX: number;
 	private aY: number;
+	private aspectRatio: number;
 	private p: p5;
 
 	/**
@@ -299,14 +315,24 @@ export class Circle {
 	 * @param d diameter of the circle relative to the screen height
 	 * @param aX x coord of the anchor point as absolute width
 	 * @param aY y coord of the anchor point as absolute height
+	 * @param aspectRatio ratio of window
 	 * @param p instance of the p5
 	 */
-	constructor(x: number, y: number, d: number, aX: number, aY: number, p: p5) {
+	constructor(
+		x: number,
+		y: number,
+		d: number,
+		aX: number,
+		aY: number,
+		aspectRatio: number,
+		p: p5,
+	) {
 		this.x = x;
 		this.y = y;
 		this.aX = aX;
 		this.aY = aY;
 		this.d = d;
+		this.aspectRatio = aspectRatio;
 		this.p = p;
 
 		this.setCoords();
@@ -323,7 +349,7 @@ export class Circle {
 		const hAbs = getViewportSize().height;
 
 		this.d = Math.floor((hAbs / 100) * this.d);
-		this.x = posCoords.x;
+		this.x = posCoords.x / this.aspectRatio;
 		this.y = posCoords.y;
 	}
 
