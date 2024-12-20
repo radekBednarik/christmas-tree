@@ -53,7 +53,7 @@ export function drawTree(
 
 			new Circle(hShift, vShift, d, aX, triangle.y1, p);
 		} else {
-			x1 -= 1.1;
+			x1 -= 2;
 			y1 += verticalGap;
 			y2 += verticalGap;
 			y3 += verticalGap;
