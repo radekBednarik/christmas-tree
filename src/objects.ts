@@ -1,6 +1,6 @@
 import type p5 from "p5";
 import type { Color } from "p5";
-import { getMonotonicArray, getRandomNumber } from "./utils";
+import { CHROMATIC_COLORS, getMonotonicArray, getRandomNumber } from "./utils";
 import {
 	getAbsoluteWidthAndHeight,
 	getCoords,
@@ -89,13 +89,15 @@ export class Rectangle {
 
 export class Triangle {
 	private shape: Shape;
-	private x1: number;
-	private y1: number;
-	private x2: number;
+	public x1: number;
+	public y1: number;
+	public x2: number;
 	private y2: number;
 	private x3: number;
 	private y3: number;
 	private flipVertical?: boolean;
+	public cX = 0;
+	public cY = 0;
 
 	/**
 	 * @param x1 x of first point in percentage of window width
@@ -144,12 +146,19 @@ export class Triangle {
 		if (this.flipVertical) {
 			this.flipVertically();
 		}
+
+		this.setCentreCoords();
 	}
 
 	private flipVertically() {
 		const gap = this.x2 - this.x1;
 		this.x1 = this.x2;
 		this.x2 = this.x2 + gap;
+	}
+
+	private setCentreCoords() {
+		this.cX = Math.floor((this.x1 + this.x2 + this.x3) / 3);
+		this.cY = Math.floor((this.y1 + this.y2 + this.y3) / 3);
 	}
 
 	private create() {
@@ -272,6 +281,58 @@ export class Star {
 		});
 
 		this.p.endShape(this.p.CLOSE);
+		this.p.pop();
+	}
+}
+
+export class Circle {
+	private x: number;
+	private y: number;
+	private d: number;
+	private aX: number;
+	private aY: number;
+	private p: p5;
+
+	/**
+	 * @param x x coord of the centre relative to anchor point aX as percentage
+	 * @param y y coord of the centre relative to anchor point aY as percentage
+	 * @param d diameter of the circle relative to the screen height
+	 * @param aX x coord of the anchor point as absolute width
+	 * @param aY y coord of the anchor point as absolute height
+	 * @param p instance of the p5
+	 */
+	constructor(x: number, y: number, d: number, aX: number, aY: number, p: p5) {
+		this.x = x;
+		this.y = y;
+		this.aX = aX;
+		this.aY = aY;
+		this.d = d;
+		this.p = p;
+
+		this.setCoords();
+		this.create();
+	}
+
+	private setCoords() {
+		const posCoords = getCoordsRelativeToAnchorPoint(
+			this.aX,
+			this.aY,
+			this.x,
+			this.y,
+		);
+		const hAbs = getViewportSize().height;
+
+		this.d = Math.floor((hAbs / 100) * this.d);
+		this.x = posCoords.x;
+		this.y = posCoords.y;
+	}
+
+	private create() {
+		const rIndex = getRandomNumber(CHROMATIC_COLORS.length - 1);
+
+		this.p.push();
+		this.p.fill(CHROMATIC_COLORS[rIndex].rgb);
+		this.p.circle(this.x, this.y, this.d);
 		this.p.pop();
 	}
 }

@@ -1,6 +1,6 @@
 import type p5 from "p5";
-import { Point, Rectangle, Star, Triangle } from "./objects";
-import { getRandomNumber } from "./utils";
+import { Circle, Point, Rectangle, Star, Triangle } from "./objects";
+import { getAvgOfTwo, getRandomNumber } from "./utils";
 import { getViewportSize } from "./window";
 
 export function drawTree(
@@ -43,15 +43,25 @@ export function drawTree(
 		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		i % 2 !== 0 ? (flip = true) : (flip = false);
 
+		const hShift = flip ? 3 : -3;
+		const vShift = 2;
+		const d = 4;
+
 		if (i <= 1 || !toNextRow) {
-			new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
+			const triangle = new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
+			const aX = getAvgOfTwo(triangle.x1, triangle.x2);
+
+			new Circle(hShift, vShift, d, aX, triangle.y1, p);
 		} else {
 			x1 -= 3;
 			y1 += verticalGap;
 			y2 += verticalGap;
 			y3 += verticalGap;
 
-			new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
+			const triangle = new Triangle(x1, y1, x2, y2, x3, y3, color, p, flip);
+			const aX = getAvgOfTwo(triangle.x1, triangle.x2);
+
+			new Circle(hShift, vShift, d, aX, triangle.y1, p);
 		}
 	}
 }

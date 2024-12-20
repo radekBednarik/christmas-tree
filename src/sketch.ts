@@ -47,6 +47,7 @@ function sketch(p: p5) {
 		p.createCanvas(window.width, window.height);
 		p.colorMode("rgb");
 		p.frameRate(30);
+		// p.noLoop();
 	};
 
 	p.draw = () => {
