@@ -79,7 +79,7 @@ export function drawSnowflakes(
 
 		// If the snowflake goes off the bottom, reset it to the top
 		if (flake.y > wDims.height) {
-			flake.setY(0);
+			flake.setY(getRandomNumber(5));
 			flake.setX(getRandomNumber(wDims.width));
 		}
 
