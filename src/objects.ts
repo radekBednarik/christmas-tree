@@ -328,10 +328,8 @@ export class Circle {
 	}
 
 	private create() {
-		const rIndex = getRandomNumber(CHROMATIC_COLORS.length - 1);
-
 		this.p.push();
-		this.p.fill(CHROMATIC_COLORS[rIndex].rgb);
+		this.p.fill(CHROMATIC_COLORS[4].rgb);
 		this.p.circle(this.x, this.y, this.d);
 		this.p.pop();
 	}
