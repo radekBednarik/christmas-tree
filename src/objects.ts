@@ -92,6 +92,7 @@ export class Rectangle {
 		const absDims = getAbsoluteWidthAndHeight(this.w, this.h);
 
 		this.shape.p.push();
+		this.shape.p.strokeWeight(0);
 		this.shape.fill(this.shape.color);
 		this.shape.p.rect(this.x, this.y, absDims.w, absDims.h);
 		this.shape.p.pop();
@@ -180,8 +181,8 @@ export class Triangle {
 
 	private create() {
 		this.shape.p.push();
-		this.shape.fill(this.shape.color);
 		this.shape.p.strokeWeight(0);
+		this.shape.fill(this.shape.color);
 		this.shape.p.triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
 		this.shape.p.pop();
 	}
@@ -297,7 +298,7 @@ export class Star {
 
 	public create() {
 		this.p.push();
-		this.p.strokeWeight(2);
+		this.p.strokeWeight(1);
 		this.p.stroke("white");
 		this.p.fill(this.getGlowColor());
 
@@ -367,6 +368,7 @@ export class Circle {
 
 	private create() {
 		this.p.push();
+		this.p.strokeWeight(0);
 		this.p.fill(CHROMATIC_COLORS[4].rgb);
 		this.p.circle(this.x, this.y, this.d);
 		this.p.pop();
