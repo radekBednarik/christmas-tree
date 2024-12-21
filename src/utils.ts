@@ -29,3 +29,15 @@ export const CHROMATIC_COLORS: {
 export function getAvgOfTwo(a: number, b: number) {
 	return (a + b) / 2;
 }
+
+export function getTotalOfFlakes(windowWidth: number) {
+	if (windowWidth >= 2000) {
+		return 3000;
+	}
+
+	if (windowWidth >= 1000) {
+		return 2000;
+	}
+
+	return 1000;
+}

@@ -9,6 +9,7 @@ import {
 	drawStar,
 	drawTree,
 } from "./drawers";
+import { getTotalOfFlakes } from "./utils";
 import { getAspectRatio, getViewportSize } from "./window";
 
 new p5(sketch, document.querySelector<HTMLDivElement>("#canvas-wrapper")!);
@@ -16,13 +17,13 @@ new p5(sketch, document.querySelector<HTMLDivElement>("#canvas-wrapper")!);
 (document.getElementById("octokat") as HTMLImageElement).src = octokat;
 
 function sketch(p: p5) {
-	const FLAKES_COUNT = 800;
+	const wSize = getViewportSize();
+	let aspectRatio = getAspectRatio(wSize);
+
+	const FLAKES_COUNT = getTotalOfFlakes(wSize.width);
 	const COLOR_SNOW = "#FFFFFF";
 	const COLOR_SKY = "#0D3B66";
 	const COLOR_STAR = "#FFD700";
-
-	const wSize = getViewportSize();
-	let aspectRatio = getAspectRatio(wSize);
 
 	const treeInitCoords = { x1: 40, y1: 30, x2: 50, y2: 30, x3: 50, y3: 20 };
 	const snowflakes = createSnowflakes(FLAKES_COUNT, COLOR_SNOW, p);
