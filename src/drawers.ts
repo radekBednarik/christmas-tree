@@ -37,17 +37,22 @@ export function drawTree(
 	let y2 = initCoords.y2;
 	let y3 = initCoords.y3;
 
+	// draw triangles one by one
 	for (let i = 0; i < howManyTriangles; i++) {
 		let flip = false;
+		// when to start with next "row" of triangles
 		const toNextRow = (i - 2) % 2 === 0 ? true : false;
 
+		// when to vertically flip the triangle
 		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		i % 2 !== 0 ? (flip = true) : (flip = false);
 
+		// shifting the coords
 		const hShift = flip ? 3 : -3;
 		const vShift = 2;
 		const d = 4;
 
+		// if first two triangles or staying in the current row
 		if (i <= 1 || !toNextRow) {
 			const triangle = new Triangle(
 				x1,
@@ -64,6 +69,8 @@ export function drawTree(
 			const aX = getAvgOfTwo(triangle.x1, triangle.x2);
 
 			new Circle(hShift, vShift, d, aX, triangle.y1, aspectRatio, p);
+
+			// move to next row - shift the coords
 		} else {
 			x1 -= 2;
 			y1 += verticalGap;

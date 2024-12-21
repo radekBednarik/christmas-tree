@@ -148,17 +148,26 @@ export class Triangle {
 	}
 
 	private setAbsCoords() {
-		const firstPointCoords = getCoords(this.x1, this.y1);
-		const secondPointCoords = getCoords(this.x2, this.y2);
-		const thirdPointCoords = getCoords(this.x3, this.y3);
+		const firstPointCoords = getCoords(
+			this.x1 / this.shape.aspectRatio!,
+			this.y1,
+		);
+		const secondPointCoords = getCoords(
+			this.x2 / this.shape.aspectRatio!,
+			this.y2,
+		);
+		const thirdPointCoords = getCoords(
+			this.x3 / this.shape.aspectRatio!,
+			this.y3,
+		);
 
-		this.x1 = firstPointCoords.x / this.shape.aspectRatio!;
+		this.x1 = firstPointCoords.x;
 		this.y1 = firstPointCoords.y;
 
-		this.x2 = secondPointCoords.x / this.shape.aspectRatio!;
+		this.x2 = secondPointCoords.x;
 		this.y2 = secondPointCoords.y;
 
-		this.x3 = thirdPointCoords.x / this.shape.aspectRatio!;
+		this.x3 = thirdPointCoords.x;
 		this.y3 = thirdPointCoords.y;
 
 		if (this.flipVertical) {
