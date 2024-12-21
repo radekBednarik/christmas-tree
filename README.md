@@ -12,7 +12,7 @@
 
 ## Deploy
 
-Deployed using Cloudflare pages [HERE](https://christmas-tree-u7o.pages.dev/)
+Deployed using Cloudflare pages [HERE](https://christmas-tree.christmas/)
 
 ## Notice
 
